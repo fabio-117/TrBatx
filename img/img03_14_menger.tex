@@ -1,0 +1,111 @@
+\RequirePackage{luatex85}
+\documentclass[border=2mm]{standalone}
+\usepackage{luamplib}
+\begin{document}
+\begin{tabular}{c}
+\begin{mplibcode}
+def cantor_dust(expr x, y, d, n) = 
+    if n > 0:
+        cantor_dust(x, y, .d/3, n-1);
+        cantor_dust(x+d/3, y, d/3, n-1);
+        cantor_dust(x+2d/3, y, d/3, n-1);
+        cantor_dust(x, y+d/3, d/3, n-1);
+        cantor_dust(x, y+2d/3, d/3, n-1);
+        cantor_dust(x+d/3, y+2d/3, d/3, n-1);
+        cantor_dust(x+2d/3, y+d/3, d/3,  n-1);
+        cantor_dust(x+2d/3, y+2d/3, d/3,  n-1);
+    else: fill (x, y) -- (x+d, y) -- (x+d, y+d) -- (x, y+d) -- cycle; fi
+enddef;
+def menger_top(expr x, y, a, b, n) = 
+    if n > 0:
+        menger_top(x, y, a/3, b/3, n-1);
+        menger_top(x+a/3, y, a/3, b/3, n-1);
+        menger_top(x+2a/3, y, a/3, b/3, n-1);
+        menger_top(x+4b/9, y+b/3, a/3, b/3, n-1);
+        menger_top(x+2a/3+4b/9, y+b/3, a/3, b/3, n-1);
+        menger_top(x+8b/9, y+2b/3, a/3, b/3, n-1);
+        menger_top(x+a/3+8b/9, y+2b/3, a/3, b/3,  n-1);
+        menger_top(x+2a/3+8b/9, y+2b/3, a/3, b/3,  n-1);
+    else: fill (x, y) -- (x+a, y) -- (x+a+4b/3, y+b) -- (x+4b/3, y+b) -- cycle; fi
+enddef;
+def menger_left(expr x, y, a, b, n) = 
+    if n > 0:
+        menger_left(x, y, a/3, b/3, n-1);
+        menger_left(x + b/3, y + b/4, a/3, b/3, n-1);
+        menger_left(x + 2b/3, y + 2b/4, a/3, b/3, n-1);
+        menger_left(x, y + a/3, a/3, b/3, n-1);
+        menger_left(x, y + 2a/3, a/3, b/3, n-1);
+        menger_left(x + b/3, y + b/4 + 2a/3, a/3, b/3, n-1);
+        menger_left(x + 2b/3, y + 2b/4 + 2a/3, a/3, b/3,  n-1);
+        menger_left(x + 2b/3, y + 2b/4 + a/3, a/3, b/3,  n-1);
+    else: fill (x,y) -- (x+b, y + 3b/4) -- (x + b, y + 3b/4 + a) -- (x, y +a) -- cycle; fi
+enddef;
+beginfig(1);
+	u = 2cm;
+	pair v; v = 3.125u*right; % translation vector
+    for i = 0 upto 1:
+        draw image(cantor_dust(0, 0, 4cm, i); 
+        label.bot(textext("\huge $n=" & decimal i & "$"), 1u*right))
+        shifted (i*v);
+%        draw image(cantor_dust(0, 0, 4cm, i)) shifted (6.25cm*i, 0);
+        draw image(menger_left(4cm, 0, 4cm, 1cm, i)) shifted (6.25cm*i, 0);
+        draw image(menger_top(0, 4cm, 4cm, 0.75cm, i)) shifted (6.25cm*i, 0);
+    endfor;
+endfig;
+end. 
+\end{mplibcode}
+\\
+\\
+\begin{mplibcode}
+def cantor_dust(expr x, y, d, n) = 
+    if n > 0:
+        cantor_dust(x, y, .d/3, n-1);
+        cantor_dust(x+d/3, y, d/3, n-1);
+        cantor_dust(x+2d/3, y, d/3, n-1);
+        cantor_dust(x, y+d/3, d/3, n-1);
+        cantor_dust(x, y+2d/3, d/3, n-1);
+        cantor_dust(x+d/3, y+2d/3, d/3, n-1);
+        cantor_dust(x+2d/3, y+d/3, d/3,  n-1);
+        cantor_dust(x+2d/3, y+2d/3, d/3,  n-1);
+    else: fill (x, y) -- (x+d, y) -- (x+d, y+d) -- (x, y+d) -- cycle; fi
+enddef;
+def menger_top(expr x, y, a, b, n) = 
+    if n > 0:
+        menger_top(x, y, a/3, b/3, n-1);
+        menger_top(x+a/3, y, a/3, b/3, n-1);
+        menger_top(x+2a/3, y, a/3, b/3, n-1);
+        menger_top(x+4b/9, y+b/3, a/3, b/3, n-1);
+        menger_top(x+2a/3+4b/9, y+b/3, a/3, b/3, n-1);
+        menger_top(x+8b/9, y+2b/3, a/3, b/3, n-1);
+        menger_top(x+a/3+8b/9, y+2b/3, a/3, b/3,  n-1);
+        menger_top(x+2a/3+8b/9, y+2b/3, a/3, b/3,  n-1);
+    else: fill (x, y) -- (x+a, y) -- (x+a+4b/3, y+b) -- (x+4b/3, y+b) -- cycle; fi
+enddef;
+def menger_left(expr x, y, a, b, n) = 
+    if n > 0:
+        menger_left(x, y, a/3, b/3, n-1);
+        menger_left(x + b/3, y + b/4, a/3, b/3, n-1);
+        menger_left(x + 2b/3, y + 2b/4, a/3, b/3, n-1);
+        menger_left(x, y + a/3, a/3, b/3, n-1);
+        menger_left(x, y + 2a/3, a/3, b/3, n-1);
+        menger_left(x + b/3, y + b/4 + 2a/3, a/3, b/3, n-1);
+        menger_left(x + 2b/3, y + 2b/4 + 2a/3, a/3, b/3,  n-1);
+        menger_left(x + 2b/3, y + 2b/4 + a/3, a/3, b/3,  n-1);
+    else: fill (x,y) -- (x+b, y + 3b/4) -- (x + b, y + 3b/4 + a) -- (x, y +a) -- cycle; fi
+enddef;
+beginfig(2);
+    u = 2cm;
+	pair v; v = 3.125u*right; % translation vector
+    for i = 2 upto 3:
+        draw image(cantor_dust(0, 0, 4cm, i); 
+        label.bot(textext("\huge $n=" & decimal i & "$"), 1u*right))
+        shifted (i*v);
+        %draw image(cantor_dust(0, 0, 4cm, i)) shifted (6.25cm*i, 0);
+        draw image(menger_left(4cm, 0, 4cm, 1cm, i)) shifted (6.25cm*i, 0);
+        draw image(menger_top(0, 4cm, 4cm, 0.75cm, i)) shifted (6.25cm*i, 0);
+    endfor;
+endfig;
+end. 
+\end{mplibcode}
+\end{tabular} 
+\end{document}

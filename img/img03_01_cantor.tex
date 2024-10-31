@@ -1,0 +1,21 @@
+\documentclass[border=2mm]{standalone}
+\usepackage{tikz,pgfplots}
+\pgfplotsset{compat=1.14}
+\usetikzlibrary{lindenmayersystems}
+\pgfdeclarelindenmayersystem{cantor set}{
+  \rule{F -> FfF}
+  \rule{f -> fff}
+}
+\begin{document}
+\begin{tikzpicture}[scale=1]
+  \foreach \order in {0}
+    \draw[yshift=-\order*30pt]  l-system[l-system={cantor set, axiom=F, order=\order, step=300pt/(3^\order)}];
+\foreach \x/\xtext in {0} 
+\foreach \y/\xtext in {0}
+    \draw (\x,\y-0.25) node{$0$}; 
+\foreach \x/\xtext in {10.5} 
+\foreach \y/\xtext in {0}
+    \draw (\x,\y-0.25) node{$1$}; 
+
+\end{tikzpicture}
+\end{document}

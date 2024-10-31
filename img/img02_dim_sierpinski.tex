@@ -1,0 +1,129 @@
+\RequirePackage{luatex85}
+\documentclass[border=5pt]{standalone}
+\usepackage{tikz,pgfplots}
+\pgfplotsset{compat=1.11}
+\usepackage{luamplib}
+\begin{document}
+\begin{tabular}{cc}
+\begin{mplibcode}
+def gasket_sierpinski(expr x, y, d, n) = 
+    if n > 0:
+        gasket_sierpinski(x, y, d/2, n-1);
+        gasket_sierpinski(x+d/2, y, d/2, n-1);
+        gasket_sierpinski(x, y+d/2, d/2, n-1);
+    else: fill (x, y) -- (x+d, y) -- (x, y+d) -- cycle; fi
+enddef;
+beginfig(2);
+    numeric u,v;
+    u = 0.5cm;
+    v=8;
+	%for i = 0 upto 2:
+         draw image(gasket_sierpinski(0, 0, 4cm, 5)) ;
+    %endfor;
+    for i:=0 upto v:
+    	draw (0,i*u)--(v*u,i*u);
+    	draw (i*u,0)--(i*u,v*u);
+    endfor;
+endfig;
+\end{mplibcode}
+&
+\begin{mplibcode}
+def gasket_sierpinski(expr x, y, d, n) = 
+    if n > 0:
+        gasket_sierpinski(x, y, d/2, n-1);
+        gasket_sierpinski(x+d/2, y, d/2, n-1);
+        gasket_sierpinski(x, y+d/2, d/2, n-1);
+    else: fill (x, y) -- (x+d, y) -- (x, y+d) -- cycle; fi
+enddef;
+beginfig(1);
+    numeric u;
+    u = 0.25cm;
+	v=16;
+	%for i = 0 upto 2:
+         draw image(gasket_sierpinski(0, 0, 4cm, 5)) ;
+    %endfor;
+    for i:=0 upto v:
+    	draw (0,i*u)--(v*u,i*u);
+    	draw (i*u,0)--(i*u,v*u);
+    endfor;
+endfig;
+\end{mplibcode}
+\\
+$r_1=\frac{1}{8}$, $N(r_1)=27$ & $r_2=\frac{1}{16}$, $N(r_2)=81$
+\\
+&
+\\
+\begin{mplibcode}
+def gasket_sierpinski(expr x, y, d, n) = 
+    if n > 0:
+        gasket_sierpinski(x, y, d/2, n-1);
+        gasket_sierpinski(x+d/2, y, d/2, n-1);
+        gasket_sierpinski(x, y+d/2, d/2, n-1);
+    else: fill (x, y) -- (x+d, y) -- (x, y+d) -- cycle; fi
+enddef;
+beginfig(2);
+    numeric u;
+    u = 0.125cm;
+	v=32;
+	%for i = 0 upto 2:
+         draw image(gasket_sierpinski(0, 0, 4cm, 5)) ;
+    %endfor;
+    for i:=0 upto v:
+    	draw (0,i*u)--(v*u,i*u);
+    	draw (i*u,0)--(i*u,v*u);
+    endfor;    
+endfig;
+\end{mplibcode}
+&
+\begin{mplibcode}
+def gasket_sierpinski(expr x, y, d, n) = 
+    if n > 0:
+        gasket_sierpinski(x, y, d/2, n-1);
+        gasket_sierpinski(x+d/2, y, d/2, n-1);
+        gasket_sierpinski(x, y+d/2, d/2, n-1);
+    else: fill (x, y) -- (x+d, y) -- (x, y+d) -- cycle; fi
+enddef;
+beginfig(1);
+    numeric u;
+    u = 0.0625cm;
+	v=64;
+	%for i = 0 upto 2:
+         draw image(gasket_sierpinski(0, 0, 4cm, 5)) ;
+    %endfor;
+    for i:=0 upto v:
+    	draw (0,i*u)--(v*u,i*u);
+    	draw (i*u,0)--(i*u,v*u);
+    endfor;
+endfig;
+\end{mplibcode}
+\\
+$r_3=\frac{1}{32}$, $N(r_3)=243$ & $r_4=\frac{1}{64}$, $N(r_4)=729$
+\\
+\\
+\multicolumn{2}{c}{
+\begin{tikzpicture}
+    \begin{axis}[legend pos=north west,
+    samples=50, 
+    domain=2:4.5, 
+    ymin=3,
+    ymax=7,
+    xmin=2, 
+    xmax=4.5, 
+    xlabel=$\log(1/r)$,
+    ylabel=$\log N(r)$, 
+    grid=major]
+      \addplot [red,smooth, thick] { 1.584963*x };  
+      \addplot[blue!50!green,only marks] coordinates {
+       (2.07944154, 3.29583687)
+       (2.77258872, 4.39444915)
+       (3.4657359 , 5.49306144)
+       (4.15888308, 6.59167373)
+        }; 
+      
+       \legend{$f(x)=1.584963x$}   
+       
+     \end{axis}
+\end{tikzpicture}
+}
+\end{tabular}
+\end{document}

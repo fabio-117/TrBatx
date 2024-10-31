@@ -1,0 +1,22 @@
+\documentclass[border=2mm]{standalone}
+\usepackage{tikz}
+\usetikzlibrary{lindenmayersystems}
+\usetikzlibrary[shadings]
+\begin{document}
+\pgfdeclarelindenmayersystem{Peano curve}{
+  \rule{X -> XFYFX+F+YFXFY-F-XFYFX}
+  \rule{Y -> YFXFY-F-XFYFX+F+YFXFY}}
+\begin{tikzpicture}
+	\foreach \i in {1,...,3}{
+		\begin{scope}[xshift=.65*\i cm,yshift=0 cm,rotate=0, scale = 1/(3^(\i)-1)]
+			\draw [black,line width=0.025mm, rotate=90]
+			%\shadedraw [bottom color=white, top color=white, draw=black]
+			[l-system={Peano curve, axiom=Y, order=\i, step=15pt, angle=90}]
+			lindenmayer system;
+      	\end{scope}
+    }
+%    \draw [black, rotate=90]
+%    [l-system={Peano curve, axiom=Y, order=4, step=3pt, angle=90}]
+%   lindenmayer system; 
+\end{tikzpicture}
+\end{document}

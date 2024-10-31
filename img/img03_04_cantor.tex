@@ -1,0 +1,14 @@
+\documentclass[border=2mm]{standalone}
+\usepackage{tikz,pgfplots}
+\pgfplotsset{compat=1.14}
+\usetikzlibrary{lindenmayersystems}
+\pgfdeclarelindenmayersystem{cantor set}{
+  \rule{F -> FfF}
+  \rule{f -> fff}
+}
+\begin{document}
+\begin{tikzpicture}[scale=1]
+  \foreach \order in {0,...,5}
+    \draw[yshift=-\order*15pt]  l-system[l-system={cantor set, axiom=F, order=\order, step=300pt/(3^\order)}] node[left]{$n$=\order};
+\end{tikzpicture}
+\end{document}

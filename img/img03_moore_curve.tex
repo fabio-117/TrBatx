@@ -1,0 +1,23 @@
+\documentclass[border=1mm]{standalone}
+\usepackage{tikz}
+\usetikzlibrary{lindenmayersystems}
+\usetikzlibrary[shadings]
+\begin{document}
+\pgfdeclarelindenmayersystem{Moore curve}{
+  \rule{L -> -RF+LFL+FR-}
+  \rule{R -> +LF-RFR-FL+}}
+\begin{tikzpicture}
+%	\foreach \i in {1,...,3}{
+%		\begin{scope}[xshift=1.25*\i cm,yshift=0 cm,rotate=0, scale = 1/(2^(\i)-0.5)]
+%			\draw [black,line width=0.025mm, rotate=90]
+%			%\shadedraw [bottom color=white, top color=white, draw=black]
+%			[l-system={Moore curve, axiom=LFL+F+LFL, order=\i, step=15pt, angle=90}]
+%			lindenmayer system;
+%      	\end{scope}
+%    }
+    \draw [black, rotate=90]
+    [l-system={Moore curve, axiom=LFL+F+LFL, order=5, step=3pt, angle=90}]
+			lindenmayer system;
+\end{tikzpicture}
+\end{document}
+

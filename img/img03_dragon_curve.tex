@@ -1,0 +1,28 @@
+\RequirePackage{luatex85}
+\documentclass[border=5pt]{standalone}
+\usepackage{luamplib}
+\begin{document}
+\begin{mplibcode}
+numeric angle; angle := 90;
+vardef tree(expr A,a,B,b,C,c,i)=
+	if i > 0:
+		save X,x,Y,y;
+    	X=A+(C-A)/2; x=a+(c-a)/2; 
+    	Y=A+(X-A)*cosd(angle)-(x-a)*sind(angle);
+    	y=a+(x-a)*cosd(angle)+(X-A)*sind(angle);
+    	tree(C,c,X,x,B,b,i-1);
+    	tree(A,a,Y,y,B,b,i-1);
+    else:
+    	draw (A,a)--(B,b)--(C,c) ;
+    	%pickup pencircle scaled 0.025pt;
+    fi;
+enddef;
+
+beginfig(1);
+	pickup pencircle scaled 0.05pt;
+	draw image(tree(0,0,0.5cm,0.5cm,1cm,0,15)) ;
+endfig; 
+\end{mplibcode}
+\end{document}
+
+

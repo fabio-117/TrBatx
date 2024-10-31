@@ -1,0 +1,35 @@
+\documentclass[border=2mm]{standalone}
+\usepackage{tikz,pgfplots}
+\pgfplotsset{compat=1.14}
+\definecolor{orange2}{HTML}{b25915}
+\begin{document}
+\begin{tabular}{ccc}
+\begin{tikzpicture}[scale=1]
+\node[inner sep=0pt] at (0,0)
+    {\includegraphics[width=0.33\textwidth]{img01_britain_01.jpg}};
+\end{tikzpicture}
+&
+\begin{tikzpicture}[scale=1]
+\node[inner sep=0pt] at (0,0)
+    {\includegraphics[width=0.33\textwidth]{img01_britain_02.jpg}};
+\end{tikzpicture}
+&
+\begin{tikzpicture}[scale=1]
+\node[inner sep=0pt] at (0,0)
+    {\includegraphics[width=0.33\textwidth]{img01_britain_03.jpg}};
+\end{tikzpicture}\\
+\begin{tikzpicture}[scale=1]
+\fill[orange2] (0,0)--(1,0)--(1,0.1)--(0,0.1)--cycle;
+\end{tikzpicture}
+&
+\begin{tikzpicture}[scale=1]
+\fill[orange2] (0,0)--(0.5,0)--(0.5,0.1)--(0,0.1)--cycle;
+\end{tikzpicture}
+&
+\begin{tikzpicture}[scale=1]
+\fill[orange2] (0,0)--(0.25,0)--(0.25,0.1)--(0,0.1)--cycle;
+\end{tikzpicture}\\
+Unitat = 200 km & Unitat = 100 km & Unitat = 50 km\\
+Longitud 2400 km (aprox.) & Longitud 2800 km (aprox.) & Longitud 3400 km (aprox.)
+\end{tabular}
+\end{document}

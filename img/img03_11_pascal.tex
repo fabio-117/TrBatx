@@ -1,0 +1,70 @@
+\documentclass[border=0.25in]{standalone}
+
+\usepackage{tikz,fp}
+
+\newlength{\R}
+\setlength{\R}{.75cm}
+\newcommand\mycolor{red!100!black}
+
+%% https://tex.stackexchange.com/questions/34424/how-do-i-calculate-n-modulo-3-in-latex/34425#34425
+\newcommand{\modulo}[2]{%
+  \FPeval{\result}{trunc(#1-(#2*trunc(#1/#2,0)),0)}\result%
+}
+\begin{document}
+%%  #1 determines which hexagons are filled (default is 2); #2 is number of rows
+\newcommand{\makesierp}[2][5]{%
+    \begin{tikzpicture}[line width=.8pt]
+        \foreach \k in {0,...,#2}{
+            \begin{scope}[shift={(-60:{sqrt(3)*\R*\k})}]
+                \pgfmathtruncatemacro\ystart{#2-\k}
+                \foreach \n in {0,...,\ystart}{
+                    \pgfmathtruncatemacro\newn{\n+\k}
+                    \pgfmathsetmacro{\myvalue}{1}
+                    \ifnum\k>0
+                        \foreach \b in {1,...,\k}{
+                            \FPeval\myvalue{trunc(\myvalue*(\newn-\b+1)/\b:0)}
+                            \global\let\myvalue=\myvalue
+                        }
+                    \fi
+                    \modulo{\myvalue}{#1}%
+                    \ifnum\result=0 \def\mycolor{white!60!black}\fi%
+                    \begin{scope}[shift={(-120:{sqrt(3)*\R*\n})}]
+                        \draw[fill=\mycolor!30] 
+                        (30:\R) \foreach \x in {90,150,...,330} {
+                        -- (\x:\R)}
+                        --cycle (90:0);%node[font=\tiny] {$\mathbf{\myvalue}$};
+                    \end{scope}
+                }
+            \end{scope}
+        }
+    \end{tikzpicture}
+}
+\newcommand{\makesierp}[2][3]{%
+    \begin{tikzpicture}[line width=.8pt]
+        \foreach \k in {0,...,#2}{
+            \begin{scope}[shift={(-60:{sqrt(3)*\R*\k})}]
+                \pgfmathtruncatemacro\ystart{#2-\k}
+                \foreach \n in {0,...,\ystart}{
+                    \pgfmathtruncatemacro\newn{\n+\k}
+                    \pgfmathsetmacro{\myvalue}{1}
+                    \ifnum\k>0
+                        \foreach \b in {1,...,\k}{
+                            \FPeval\myvalue{trunc(\myvalue*(\newn-\b+1)/\b:0)}
+                            \global\let\myvalue=\myvalue
+                        }
+                    \fi
+                    \modulo{\myvalue}{#1}%
+                    \ifnum\result=0 \def\mycolor{white!60!black}\fi%
+                    \begin{scope}[shift={(-120:{sqrt(3)*\R*\n})}]
+                        \draw[fill=\mycolor!30] 
+                        (30:\R) \foreach \x in {90,150,...,330} {
+                        -- (\x:\R)}
+                        --cycle (90:0);%node[font=\tiny] {$\mathbf{\myvalue}$};
+                    \end{scope}
+                }
+            \end{scope}
+        }
+    \end{tikzpicture}
+}
+\makesierp{10}
+\end{document}

@@ -1,0 +1,52 @@
+\RequirePackage{luatex85}
+\documentclass[border=0.5mm]{standalone}
+\usepackage{luamplib}
+\begin{document}
+\begin{mplibcode}
+vardef sirp(expr A,B,C,n)=   %Procédure pour sierpinski
+     if n>0:
+      sirp( A,1/2[A,B],1/2[A,C], n-1);
+      sirp( 1/2[A,B],  B ,1/2[B,C] , n-1);
+      sirp( 1/2[A,C],  1/2[B,C],C  , n-1);
+    else:
+           fill A--B--C--cycle withcolor black;
+     fi;
+
+enddef;
+beginfig(1)
+u:=2cm;
+i=4;
+z0=(0,0)*u; 
+z2=(0.5,(sqrt(3))/2)*u; 
+z1=(1,0)*u;
+    draw image(sirp(z0,z1,z2,i)); 
+endfig;
+\end{mplibcode}
+\end{document}
+
+
+
+%\RequirePackage{luatex85}
+%\documentclass[border=2mm]{standalone}
+%\usepackage{luamplib}
+%\begin{document}
+%\begin{mplibcode}
+%  vardef Sierpinski_var(expr A, B, C, n) = % The recursive macro 
+%    if n = 0: filldraw A--B--C--cycle;
+%    else: 
+%      save AC, BC, AB; pair AC[], BC[], AB[];
+%      AC1 = 1/2[A,C]; 
+%      BC1 = 1/2[B,C]; 
+%      AB1 = 1/2[A,B];  
+%      Sierpinski_var(A, AB1, AC1, n-1); 
+%      Sierpinski_var(AB1, B, BC1, n-1); 
+%      Sierpinski_var(AC1,BC1,C, n-1);
+%    fi
+%  enddef;
+%  beginfig(1);
+%    u = 5cm; n = 4; 
+%    pair A, B, C; A = origin; B = u*right; C = u*dir 60;
+%    draw image(Sierpinski_var(origin, u*right, u*dir 60, n));
+%  endfig;
+%\end{mplibcode}
+%\end{document}

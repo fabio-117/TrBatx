@@ -1,0 +1,23 @@
+\documentclass[border=2mm]{standalone}
+\usepackage{tikz}
+\usetikzlibrary{lindenmayersystems}
+\usetikzlibrary[shadings]
+\begin{document}
+\pgfdeclarelindenmayersystem{Hilbert curve}{
+  \rule{L -> +RF-LFL-FR+}
+  \rule{R -> -LF+RFR+FL-}}
+\begin{tikzpicture}
+%	\foreach \i in {1,...,3}{
+%		\begin{scope}[xshift=.5*\i cm,yshift=0cm,rotate=0, scale = 1/(2^(\i)-1)]
+%			\draw [black, line width=0.025mm,rotate=0]
+%			%\shadedraw [bottom color=white, top color=white, draw=black]
+%			[l-system={Hilbert curve, axiom=L, order=\i, step=12pt, angle=90}]
+%			lindenmayer system;
+%	   	\end{scope}
+%    }
+    \draw [black, rotate=0]
+    [l-system={Hilbert curve, axiom=L, order=5, step=3pt, angle=90}]
+   lindenmayer system; 
+\end{tikzpicture}
+\end{document}
+ 

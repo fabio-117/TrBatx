@@ -1,0 +1,24 @@
+\UseRawInputEncoding
+%\begin{tabular}{ccc}
+%\toprule
+%$r$ & $N(r)$ & $\left(\log(\displaystyle\frac{1}{r}),\log(N(r))\right)$ \\
+%\midrule
+%$\displaystyle\frac{1}{8}$  & 27  &(2.0794, 3.2958)\\
+%$\displaystyle\frac{1}{16}$ & 81  &(2.7726, 4.3944)\\
+%$\displaystyle\frac{1}{32}$ & 243 &(3.4657, 5.4931)\\
+%$\displaystyle\frac{1}{64}$ & 729 &(4.1589, 6.5917)\\
+%\bottomrule
+%\end{tabular}
+%\renewcommand{\arraystretch}{2.75}
+{\tabulinesep=1.5mm
+\begin{tabu}{|l|cccc|}
+\hline
+$r$ & $\displaystyle\frac{1}{8}$ & $\displaystyle\frac{1}{16}$ & $\displaystyle\frac{1}{32}$ & $\displaystyle\frac{1}{64}$\\
+\hline
+$N(r)$ & 27 & 81 & 243 & 729 \\
+\hline
+$\log\left(\displaystyle\frac{1}{r}\right)$ & 2.0794 & 2.7726 & 3.4657 & 4.1589\\
+\hline
+$\log(N(r))$ & 3.2958 & 4.3944 & 5.4931 & 6.5917\\
+\hline
+\end{tabu}}

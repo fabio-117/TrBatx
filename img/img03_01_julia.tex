@@ -1,0 +1,53 @@
+\RequirePackage{luatex85}
+\documentclass[border=2mm]{standalone}
+\usepackage{pgfplots}
+\usepgfplotslibrary{colormaps}
+\pgfplotsset{
+    colormap={mymap}{
+        rgb255=(0,0,0),
+        rgb255=(255,255,255),
+    },compat=1.16}
+\usepackage{luacode}
+\usepgfplotslibrary{colormaps}
+\begin{luacode*}
+  function julia(cx,cy, max_iter, max)
+    local x,y,xtemp,ytemp,squaresum,iter
+    squaresum = 0
+    x = cx
+    y = cy
+    iter = 0
+    while (squaresum <= max) and (iter < max_iter)  do
+      xtemp = x * x - y * y - 0.5
+      ytemp = 2 * x * y + 0.5
+      x = xtemp
+      y = ytemp
+      iter = iter + 1
+      squaresum = x * x + y * y
+    end
+    local result = 0
+    if (iter < max_iter) then
+        result = iter
+    end
+    -- result = squaresum
+    -- io.write("" .. cx .. ", " .. cy .. " = " .. result .. " (iter " .. iter .. " squaresum " .. squaresum .. ") \string\n")
+    tex.print(result);
+  end
+\end{luacode*}
+\begin{document}
+\begin{tikzpicture}
+  \begin{axis}[
+    colormap name=mymap,
+    %colorbar,
+    %colorbar horizontal,
+    point meta min=0,
+    point meta max=1,
+    tick label style={font=\tiny},
+    view={0}{90}]
+    \addplot3 [surf, domain = -1.5:1.5, shader=interp,
+      domain y = -1.25:1.25, samples = 200] 
+      {\directlua{julia(\pgfmathfloatvalueof\x,\pgfmathfloatvalueof\y,20,4)}
+    };
+%    \draw[red] (0.35,-0.75,0) -- (1.45,-0.75,0) -- (1.45,0.35,0) -- (0.35,0.35,0) -- cycle;
+  \end{axis}
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,38 @@
+\documentclass[border=2pt]{standalone}
+\usepackage{tikz,pgfplots}
+\usetikzlibrary{quotes,angles}
+\pgfplotsset{compat=1.17}
+\begin{document}
+\begin{tikzpicture}
+  \draw
+    (4,3) coordinate (B) node[right] {$B$}
+    -- (1,2) coordinate (A) node[left] {$A$}
+    -- (3.0981,4.3660) coordinate (C) node[above right] {$B^{\prime}$}
+    pic["$\theta$", draw=orange, <->, angle eccentricity=1.2, angle radius=1cm]
+    {angle=B--A--C};
+    
+   \draw[->] (-.25,0)--(5,0) node[below]{$x$};
+   \draw[->] (0,-.5)--(0,5) node[left]{$y$};
+\end{tikzpicture}
+\begin{tikzpicture}
+  \draw
+    (4,3) coordinate (B) node[right] {$(x,y)$}
+    -- (1,2) coordinate (A) node[anchor=north] {$(x_0,y_0)$}
+    -- (3.0981,4.3660) coordinate (C) node[anchor=south west] {$(x^{\prime},y^{\prime})$}
+    pic["$\theta$", draw=orange, <->, angle eccentricity=1.2, angle radius=1cm]
+    {angle=B--A--C};
+    
+    \draw
+    (4,3) coordinate (BB)
+    -- (1,2) coordinate (AA)
+    -- (4,2) coordinate (CC)
+    pic["$\alpha$", draw=purple, <->, angle eccentricity=1.2, angle radius=1cm]
+    {angle=CC--AA--BB};
+    
+   \draw[dashed] (1,2)--(4,2);    
+   \draw[dashed,blue] (3.0981,2)--(3.0981,4.3660);
+   \draw[dashed,red] (4,2)--(4,3);    
+   \draw[->] (-.25,0)--(5,0) node[below]{$x$};
+   \draw[->] (0,-.5)--(0,5) node[left]{$y$};
+\end{tikzpicture}
+\end{document}

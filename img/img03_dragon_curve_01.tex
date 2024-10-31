@@ -1,0 +1,59 @@
+\RequirePackage{luatex85}
+\documentclass[border=5pt]{standalone}
+\usepackage{luamplib}
+\begin{document}
+\begin{tabular}{c}
+\begin{mplibcode}
+numeric angle; angle := 90;
+vardef dragon_curve(expr A,a,B,b,C,c,i)=
+	if i > 0:
+		save X,x,Y,y;
+    	X=A+(C-A)/2; x=a+(c-a)/2; 
+    	Y=A+(X-A)*cosd(angle)-(x-a)*sind(angle);
+    	y=a+(x-a)*cosd(angle)+(X-A)*sind(angle);
+    	dragon_curve(C,c,X,x,B,b,i-1);
+    	dragon_curve(A,a,Y,y,B,b,i-1);
+    else:
+    	draw (A,a)--(B,b)--(C,c) ;
+    	%pickup pencircle scaled 0.025pt;
+    fi;
+enddef;
+
+beginfig(1);
+  for i = 0 upto 2:
+	pickup pencircle scaled 0.5pt;
+	draw image(dragon_curve(0,0,0.5cm,0.5cm,1cm,0,i)) shifted (1.5cm*i, 0);
+	label.bot(textext("\tiny $n=" & decimal i & "$"), (1.5cm*i+0.5cm,-.25cm));
+  endfor;		
+endfig; 
+\end{mplibcode}
+\\
+\\
+\begin{mplibcode}
+numeric angle; angle := 90;
+vardef dragon_curve(expr A,a,B,b,C,c,i)=
+	if i > 0:
+		save X,x,Y,y;
+    	X=A+(C-A)/2; x=a+(c-a)/2; 
+    	Y=A+(X-A)*cosd(angle)-(x-a)*sind(angle);
+    	y=a+(x-a)*cosd(angle)+(X-A)*sind(angle);
+    	dragon_curve(C,c,X,x,B,b,i-1);
+    	dragon_curve(A,a,Y,y,B,b,i-1);
+    else:
+    	draw (A,a)--(B,b)--(C,c) ;
+    	%pickup pencircle scaled 0.025pt;
+    fi;
+enddef;
+
+beginfig(1);
+  for i = 3,4,5:
+	pickup pencircle scaled 0.5pt;
+	draw image(dragon_curve(0,0,0.5cm,0.5cm,1cm,0,i)) shifted (1.5cm*i, 0);
+	label.bot(textext("\tiny $n=" & decimal i & "$"), (1.5cm*i+0.5cm,-0.25cm));
+  endfor;		
+endfig; 
+\end{mplibcode}
+\end{tabular}
+\end{document}
+
+

@@ -1,0 +1,457 @@
+\documentclass[12pt,a4paper]{report}
+\usepackage[latin1]{inputenc}
+\usepackage{amsmath,amsthm,amsfonts,amssymb}
+\usepackage{listings}
+\usepackage{graphicx,booktabs}
+\usepackage{wrapfig}
+%\usepackage[a4paper, total={6in, 8in}]{geometry}
+\usepackage{geometry}
+ \geometry{
+ a4paper,
+ total={170mm,257mm},
+ left=20mm,
+ top=20mm,
+ }
+\usepackage{xcolor}
+\usepackage{blindtext}
+
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+
+\lstset{ 
+  backgroundcolor=\color{white},   % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}; should come as last argument
+  basicstyle=\footnotesize,        % the size of the fonts that are used for the code
+  breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
+  breaklines=true,                 % sets automatic line breaking
+  captionpos=b,                    % sets the caption-position to bottom
+  commentstyle=\color{mygreen},    % comment style
+  deletekeywords={...},            % if you want to delete keywords from the given language
+  escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
+  extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
+  firstnumber=01,                % start line enumeration with line 1000
+  frame=single,	                   % adds a frame around the code
+  keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
+  keywordstyle=\color{blue},       % keyword style
+  language=Octave,                 % the language of the code
+  morekeywords={*,...},            % if you want to add more keywords to the set
+  numbers=left,                    % where to put the line-numbers; possible values are (none, left, right)
+  numbersep=5pt,                   % how far the line-numbers are from the code
+  numberstyle=\tiny\color{mygray}, % the style that is used for the line-numbers
+  rulecolor=\color{black},         % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
+  showspaces=false,                % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
+  showstringspaces=false,          % underline spaces within strings only
+  showtabs=false,                  % show tabs within strings adding particular underscores
+  stepnumber=2,                    % the step between two line-numbers. If it's 1, each line will be numbered
+  stringstyle=\color{mymauve},     % string literal style
+  tabsize=2,	                   % sets default tabsize to 2 spaces
+  title=\lstname                   % show the filename of files included with \lstinputlisting; also try caption instead of title
+}
+
+\begin{document}
+\chapter{Introducción}
+\begin{align*}
+\cos(\alpha+\theta)=\frac{x - x_0}{r}\quad \text{y}\quad \sin(\alpha + \theta)=\frac{y-y_0}{r}
+\end{align*}
+\begin{align*}
+\cos\alpha\cos\theta-\sin\alpha\sin\theta=\frac{x - x_0}{r}\\
+\sin\alpha\cos\theta+\cos\alpha\sin\theta
+\end{align*}
+\begin{align*}
+\left(\begin{array}{l}
+x\\y
+\end{array}\right)=\left(\begin{array}{l}
+x_0\\y_0
+\end{array}\right) + \left(\begin{array}{lr}
+\cos\theta\ & -\sin\theta\\
+\sin\theta & \cos\theta
+\end{array}\right) 
++ \left(\begin{array}{l}
+x_1 - x_0\\y_1 - y_0
+\end{array}\right)                       
+\end{align*}
+\chapter{Fractales clásicos y autosemejanza}
+\section{El conjunto de Cantor}
+\subsection{Construcción}
+Empecemos con el intervalo cerrado [0,1]. 
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[scale=1]{img/fig_cantor_01.pdf}
+\end{figure}
+
+Ahora quitaremos el intervalo (abierto) $\left(\frac{1}{3},\frac{2}{3}\right)$, es decir, quitaremos el tercio central de [0,1], pero no los números $\frac{1}{3}$ y $\frac{2}{3}$. Esto deja dos intervalos $\left[0,\frac{1}{3}\right]$ y $\left[\frac{2}{3},1\right]$ de longitud $\frac{1}{3}$ cada uno y se completa un paso básico de la construcción.
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[scale=1]{img/fig_cantor_02.pdf}
+\end{figure}
+
+Ahora repetimos, nos fijamos en los intervalos restantes $\left[0,\frac{1}{3}\right]$ y $\left[\frac{2}{3},1\right]$ y eliminamos sus tercios medios, lo que da lugar a cuatro intervalos de longitud $\frac{1}{9}$. 
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[scale=1]{img/fig_cantor_03.pdf}
+\end{figure}
+
+Continuamos así. En otras palabras, existe un proceso de retroalimentación en el que se genera una secuencia de intervalos (cerrados): uno tras el primer paso, dos tras el segundo, cuatro tras el tercero, ocho tras el cuarto, etc. (es decir, $2^n$ intervalos de longitud $\frac{1}{3^n}$ tras el enésimo paso). La figura \ref{fig_cantor_04} muestra la construcción.
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[scale=1]{img/fig_cantor_04.pdf}
+\caption{Pasos iniciales del conjunto de Cantor.}
+\label{fig_cantor_04}
+\end{figure}
+
+El código para obtener el conjunto de Cantor es el siguiente:
+\begin{lstlisting}[language=Python]
+import matplotlib.pyplot as plt
+
+def cantor_set(x0,y0,x1,y1,n):
+    if n==0:
+        plt.plot([x0,x1],[y0,y1],color='black')
+    else:
+        x2=x0+(x1-x0)/3.0
+        x3=x1-(x1-x0)/3.0
+        cantor_set(x0,y0-0.05,x2,y0-0.05,n-1)
+        cantor_set(x3,y0-0.05,x1,y0-0.05,n-1)
+
+for k in range(0,5):
+    cantor_set(0,1,0,0,k)
+    plt.axis('off')
+\end{lstlisting}
+\section{La junta de Sierpinski}
+\subsection{Construcción}
+
+\begin{wrapfigure}[5]{r}{0.35\textwidth}
+  \begin{center}\vspace{-30pt}
+    \includegraphics[width=0.2\textwidth]{img/fig_gasket_sierpinski_01.pdf}
+  \end{center}
+\end{wrapfigure}
+La construcción geométrica básica de la junta de Sierpinski es la siguiente. Empezamos con un triángulo en el plano y le aplicamos un esquema repetitivo de operaciones (cuando decimos triángulo, nos referimos a un triángulo ennegrecido, "relleno").
+
+\begin{wrapfigure}[5]{l}{0.35\textwidth}
+  \begin{center}\vspace{-30pt}
+    \includegraphics[width=0.2\textwidth]{img/fig_gasket_sierpinski_02.pdf}
+  \end{center}
+\end{wrapfigure}
+Se eligen los puntos medios de sus tres lados. Junto con los antiguos vértices del triángulo original, estos puntos medios definen cuatro triángulos congruentes de los que eliminamos el central. Esto completa el paso básico de construcción. 
+
+En otras palabras, después del primer paso tenemos tres triángulos congruentes cuyos lados tienen exactamente la mitad del tamaño del triángulo original y que se tocan en tres puntos que son vértices comunes de dos triángulos contiguos. Ahora seguimos el mismo procedimiento con los tres triángulos restantes y repetimos el paso básico tantas veces como queramos. Es decir, empezamos con un triángulo y luego producimos 3, 9, 27, 81, 243,... triángulos, cada uno de los cuales es una versión exacta a escala reducida de los triángulos del paso anterior. La figura \ref{fig_gasket_sierpinski_03} muestra algunos pasos del proceso.
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=0.75\textwidth]{img/fig_gasket_sierpinski_03.pdf}
+\caption{Los pasos básicos de construcción de la junta de Sierpinski.}
+\label{fig_gasket_sierpinski_03}
+\end{figure}
+
+El código para obtener el conjunto de Cantor es el siguiente:
+\begin{lstlisting}[language=Python]
+import matplotlib.pyplot as plt
+
+def draw_triangle(xa,ya,xb,yb,xc,yc,n):
+    if n==0:
+        plt.fill([xa,xb,xc,xa],[ya,yb,yc,ya],color='black')
+    else:
+        xd,yd = (xa+xb)/2, (ya+yb)/2       
+        xe,ye = (xc+xb)/2, (yc+yb)/2       
+        xf,yf = (xa+xc)/2, (ya+yc)/2       
+        
+        draw_triangle(xa,ya,xd,yd,xf,yf,n-1)
+        draw_triangle(xd,yd,xb,yb,xe,ye,n-1)
+        draw_triangle(xf,yf,xe,ye,xc,yc,n-1) 
+
+draw_triangle(0,0,1,0,0.5,0.5*np.sqrt(3),2)
+plt.axis('equal')
+plt.axis('off')
+plt.show()
+\end{lstlisting}
+
+\subsection{Perímetro}
+Supongamos que el triángulo equilátero inicial (ver figura \ref{fig_gasket_sierpinski_03}) tiene 3 lados de longitud $L$, entonces
+\begin{itemize}
+\item En el primer paso su perímetro es $3L$.
+\item En el segundo paso tenemos 3 triángulos equiláteros cuyos lados miden $\displaystyle\frac{L}{2}$ y su perímetro total de estos 3 triángulos es $\displaystyle 3\cdot 3\cdot \frac{L}{2}=3L\frac{3}{2}$.
+\item En el tercer paso tenemos 9 triángulos equiláteros cuyos lados miden $\displaystyle\frac{L}{4}$ y su perímetro total de estos 9 triángulos es $\displaystyle 9\cdot 3\cdot \frac{L}{4}=3L\left(\frac{3}{2}\right)^{2}$. 
+\end{itemize}
+Es decir, en el enésimo paso el perímetro total es:
+\begin{align}
+P=3L\left(\frac{3}{2}\right)^{n},\qquad n=0,1,2\cdots
+\label{eq_gasket_sierpinski_01}
+\end{align}
+donde, $L$ es el lado del triángulo inicial.
+\subsection{Área}
+Sin perdida de generalidad supongamos que el triángulo equilátero inicial (ver figura \ref{img/fig_gasket_sierpinski_03}) tiene área inicial $A_{0}$, entonces
+\begin{itemize}
+\item En el segundo paso tenemos 3 triángulos equiláteros cada uno de ellos con una área que es igual a la cuata parte del triángulo inicial, es decir, $\displaystyle\frac{A_0}{4}$. Por lo tanto, el área total es $\displaystyle\frac{3A_0}{4}=A_0\frac{3}{4}$ 
+\item En el tercer paso tenemos 9 triángulos equiláteros cada uno de ellos con una área que es igual a la décimo sexta parte del triángulo inicial, es decir, $\displaystyle\frac{A_0}{16}$. Por lo tanto, el área total es $\displaystyle\frac{9A_0}{16}=A_0\left(\frac{3}{4}\right)^2$ 
+\end{itemize}
+Es decir, en el enésimo paso el área total es:
+\begin{align}
+A=A_{0}\left(\frac{3}{4}\right)^{n}, \qquad n=0,1,2\cdots
+\label{eq_gasket_sierpinski_02}
+\end{align}
+donde, $A_{0}$ es el área inicial de triángulo equilátero.
+
+\begin{table}
+\centering
+\begin{tabular}{|r|r|r|}
+\toprule
+iteración & perímetro & área \\
+\midrule
+0 & 3.000000 & 0.433013 \\
+1 & 4.500000 & 0.324760 \\
+2 & 6.750000 & 0.243570 \\
+3 & 10.125000 & 0.182677 \\
+4 & 15.187500 & 0.137008 \\
+5 & 22.781250 & 0.102756 \\
+6 & 34.171875 & 0.077067 \\
+7 & 51.257812 & 0.057800 \\
+8 & 76.886719 & 0.043350 \\
+9 & 115.330078 & 0.032513 \\
+10 & 172.995117 & 0.024384 \\
+11 & 259.492676 & 0.018288 \\
+12 & 389.239014 & 0.013716 \\
+13 & 583.858521 & 0.010287 \\
+14 & 875.787781 & 0.007715 \\
+15 & 1313.681671 & 0.005787 \\
+16 & 1970.522507 & 0.004340 \\
+17 & 2955.783760 & 0.003255 \\
+18 & 4433.675640 & 0.002441 \\
+19 & 6650.513460 & 0.001831 \\
+20 & 9975.770190 & 0.001373 \\
+21 & 14963.655285 & 0.001030 \\
+22 & 22445.482928 & 0.000772 \\
+23 & 33668.224392 & 0.000579 \\
+24 & 50502.336588 & 0.000434 \\
+25 & 75753.504882 & 0.000326 \\
+26 & 113630.257323 & 0.000244 \\
+27 & 170445.385985 & 0.000183 \\
+28 & 255668.078977 & 0.000137 \\
+29 & 383502.118466 & 0.000103 \\
+\bottomrule
+\end{tabular}
+\caption{Se puede observar en la tabla que en 29 iteraciones el périmetro de la junta de Sierpinski es grande y el área tiende a ser cero.}
+\end{table}
+\chapter{Algunas aplicaciones}
+\section{Introducción}
+En el presente capítulo pretendemos discutir y desarrollar posibles aplicaciones del análisis fractal. De hecho, tales aplicaciones no pueden ser limitadas, ya que los fractales pueden encontrarse en todas partes en la naturaleza y en las ciencias. Por lo tanto, trataremos de presentar algunos ejemplos sencillos y concretos, tanto en aspectos teóricos como experimentales, que puedan ser abordados por lectores de diferentes niveles y especialidades utilizando fractales.
+
+Muchas cosas en la naturaleza y en la vida son objetos fractales y/o tienen propiedades fractales. En todas partes a nuestro alrededor, nuestra visión natural y desnuda permite detectar fractales, en los árboles, sus hojas, los rayos eléctricos en el cielo, las nubes, la red sanguínea, las redes de vasos, los precios de las acciones,...etc.
+
+El análisis y la geometría fractal y multifractal proporcionan herramientas matemáticas, físicas y, en general, científicas para comprender y descubrir las leyes exactas que subyacen a estos objetos.
+
+Hoy en día, esta geometría se utiliza cada vez más en casi todos los campos, como la infografía, la visión por ordenador, los videojuegos, el control estadístico, la climatología, la oceanografía, la osteoporosis, la cosmología, el diagnóstico médico, la sociología, el diseño y las artes.
+
+\section{Fractales en la naturaleza de las plantas}
+
+En la presente sección, pretendemos ilustrar algunos objetos de tipo fractal en la naturaleza, acompañados de algunas discusiones eventuales sobre sus leyes, estructura y evolución. 
+
+Uno de los fractales naturales más visuales son los árboles. Cada árbol está compuesto por un objeto de tipo autosimilar y/o fractal que comienza con un objeto geométrico simple, como un segmento, que se transforma a continuación mediante transformaciones especiales que hacen que el objeto completo se parezca a sus piezas. La figura \ref{fig_appli_01} ilustra la estructura fractal y/o las características autosimilares de los helechos forestales.
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=0.75\textwidth]{img/fig_appli_01.png}
+\caption{Un helecho natural de Barnsley.}
+\label{fig_appli_01}
+\end{figure}
+
+Estos árboles y/o helechos naturales pueden modelarse mediante fractales. La idea original se debe a Barnsley, que propuso un modelo matemático, que después se ha demostrado que es uno de los modelos autosimilares descritos mediante el análisis fractal y la geometría. El modelo matemático se basa en el siguiente sistema de transformaciones [Barnsley (2000); Barnsley et al (1988)].
+\begin{align*}
+S_{1}\left(\begin{array}{l}
+x\\y
+\end{array}\right)&=\left(\begin{array}{ll}
+0.00 & 0.00 \\ 0.00 & 0.16
+\end{array}\right)\left(\begin{array}{l}
+x\\y
+\end{array}\right)
+\\
+S_{2}\left(\begin{array}{l}
+x\\y
+\end{array}\right)&=\left(\begin{array}{ll}
+0.85 & 0.04 \\ -0.04 & 0.85
+\end{array}\right)\left(\begin{array}{l}
+x\\y
+\end{array}\right) + \left(\begin{array}{l}
+0.00\\1.60
+\end{array}\right)
+\\
+S_{3}\left(\begin{array}{l}
+x\\y
+\end{array}\right)&=\left(\begin{array}{ll}
+0.20 & -0.26 \\ 0.23 & 0.22
+\end{array}\right)\left(\begin{array}{l}
+x\\y
+\end{array}\right) + \left(\begin{array}{l}
+0.00\\1.60
+\end{array}\right)
+\\
+S_{4}\left(\begin{array}{l}
+x\\y
+\end{array}\right)&=\left(\begin{array}{ll}
+-0.15 & 0.28 \\ 0.26 & 0.24
+\end{array}\right)\left(\begin{array}{l}
+x\\y
+\end{array}\right) + \left(\begin{array}{l}
+0.00\\0.44
+\end{array}\right).
+\end{align*}
+El sistema de estas semejanzas contractivas admite el helecho de Barnsley como atractor o como único conjunto compacto invariante no vacío $\mathbb{B}$, que satisface la ecuación del conjunto de invariancia
+\begin{align*}
+\mathbb{B} = S_{1}(\mathbb{B}) \cup S_{2}(\mathbb{B}) \cup S_{3}(\mathbb{B}) \cup S_{4}(\mathbb{B}).
+\end{align*}
+
+El siguiente algoritmo permite ilustrar gráficamente el helecho de Barnsley. La versión detallada puede encontrarse en [Mearns (2021)]. La ilustración numérica del helecho de Barnsley $\mathbb{B}$ es objeto de la figura \ref{fig_appli_02} siguiente.
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=0.75\textwidth]{img/fig_appli_02.png}
+\caption{Un helecho de Barnsley numérico.}
+\label{fig_appli_02}
+\end{figure}
+
+\section{Fractales en la anatomía del cuerpo humano}
+
+En la anatomía del cuerpo humano, descubrimos que nuestros cuerpos, células, vasos y muchos órganos poseen una estructura fractal, como el pulmón humano. La estructura fractal geométrica específica de este órgano es una de las explicaciones más sólidas de la posibilidad y/o la capacidad del tórax para encerrarlo. En efecto, el intercambio de gases, como el oxígeno suministrado a las células por la sangre y el dióxido de carbono rechazado, está asegurado por los llamados alvéolos. La superficie total del pulmón de un adulto normal se aproxima a los $100m^{2}$ . Esto significa que, sin un circuito especial de distribución, no puede encerrarse en el pequeño volumen de nuestro tórax. Así pues, es la estructura jerárquica o fractal de este árbol la que explica este asombroso circuito de distribución. La figura 9.3 muestra la estructura jerárquica y fractal del pulmón humano. Muestra claramente la autosimilitud y las leyes de escala en un órgano de estas características.
+
+%% figura
+
+Para expresar más, y comprender el papel, y la funcionalidad del pulmón, los investigadores, especialmente, en matemáticas se han centrado en el estudio de la estructura geométrica, y así se han desarrollado muchos modelos para simularlo de forma óptima. Véanse, por ejemplo, [Mauroy et al (2004); Sapoval y Filoche (2010); Weibel (1963)]. El primer modelo fractal en la simulación del pulmón humano se debe a Mandelbrot, y se ilustra en la Figura 9.5. Proporcionaremos una construcción matemática explícita general de dicho modelo. En primer lugar desarrollaremos el caso bidimensional, que es más sencillo que el tridimensional, y permitirá así a los lectores una buena comprensión de cómo obtener el modelo de Mandelbrot. A continuación, generalizaremos al caso tridimensional.
+
+\subsection{El modelo pulmonar bidimensional aproximado} 
+Consideremos por simplicidad el espacio euclidiano $\mathbb{R}^2$ equipado con su base canónica $(e_{1} , e_{2} )$, y el segmento $[O, A]$, donde $O = (0, 0)$ es el origen, y $A = (0, 1)$. Sean $\theta_1$, $\theta_2 \in (0, \pi/2 ]$ dos ángulos. Consideremos a continuación las transformaciones afines $T_1$ y $T_2$ que transforman la base $(e_1 , e_2 )$ en $(e_1 , u_1 )$, y $(e_1 , v_1 )$, respectivamente, donde
+
+\begin{align*}
+u_1 = \sin\theta_{1}e_{1} - \cos\theta_{1}e_{2} \text{ y } v_1 = - \sin\theta_{2}e_{1} - \cos\theta_{2}e_{2} .
+\end{align*}
+
+Las transformaciones $T_1$ y $T_2$ transforman el segmento $[O, A]$ en los segmentos $[O, A_1]$ y $[O, A_2]$ respectivamente, como en la Figura 9.4.
+
+Notamos aquí que ambas transformaciones $T_1$ y $T_2$ son semejanzas. Para obtener transformaciones contractivas sólo tenemos que multiplicar con los coeficientes $r_1$  y $r_2 \in (0, 1)$. Además, eligiendo $\theta_1 = \theta_2$, obtenemos un modelo simétrico como en el modelo de Mandelbrot ilustrado en la Figura 9.5.
+
+\section{Redes fractales de resistencias}
+
+Las reglas conocidas muestran cómo calcular la resistencia de resistencias dispuestas en serie o en paralelo. Las redes más complejas pueden dividirse en trozos en paralelo o en serie, y luego combinar estos trozos. Sin embargo, estos cálculos pueden ser bastante complicados. Aquí investigaremos las simplificaciones que se pueden utilizar para las resistencias dispuestas en un patrón de la junta de Sierpinski.
+
+\subsection{Propósito}
+
+Estudiaremos cómo la fractalidad en la construcción de una red de resistencias puede reflejarse en un aspecto fractal del cálculo de la resistencia. Estudiaremos la escala de la resistencia de la red con el tamaño de la red, cómo varía la resistencia con el nodo de la red muestreado y cómo la ruptura de algunos enlaces en la red altera la resistencia.
+
+\subsection{Materiales}
+
+Un centenar de resistencias de la misma resistencia (nosotros utilizamos resistencias de 1k$\Omega$), una breadboard, placas de circuito impreso y un voltímetro-ohmímetro.
+
+\subsection{Antecedentes}
+
+\begin{wrapfigure}{r}{0.45\textwidth}
+  \begin{center}\vspace{-20pt}
+    \includegraphics[width=0.4\textwidth]{img/fig_circuit_01.pdf}
+  \end{center}
+%  \caption{Birds}
+\end{wrapfigure}
+Recuerde algunas reglas sencillas para combinar resistencias. 
+%Véase [181]%, por ejemplo. 
+Para un circuito en serie de elementos con resistencia $R_1$ y $R_2$, la resistencia $R$ medida entre los puntos $A$ y $B$ es
+
+\begin{align}\label{eq_circuit_01}
+R = R_1 + R_2.
+\end{align}
+
+Las personas suficientemente mayores que celebraban la Navidad recuerdan las frustrantes luces del árbol de Navidad conectadas en serie. Si se fundía una, se apagaba toda la cadena. Sólo se podía encontrar la bombilla fundida cambiando las luces de una en una.
+
+\begin{wrapfigure}{r}{0.45\textwidth}
+  \begin{center}\vspace{-20pt}
+    \includegraphics[width=0.4\textwidth]{img/fig_circuit_02.pdf}
+  \end{center}
+%  \caption{Birds}
+\end{wrapfigure}
+En el caso de las luces de Navidad cableadas en paralelo, cuando una luz se fundía, se oscurecía ésta sola. Cuando empezaron a comercializarse las luces conectadas en paralelo, su popularidad era comprensible. En este caso, la fórmula de la resistencia es más complicada. La resistencia $R$ medida entre los puntos $A$ y $B$ viene dada por $\displaystyle\frac{1}{R} = \frac{1}{R_1} + \frac{1}{R_2}$, así que una comprobación rápida de las unidades: como tomamos el recíproco de la suma de los recíprocos de las resistencias, $R$, $R_1$ y $R_2$ tienen unidades de ohmios.
+
+\begin{align}\label{eq_circuit_02}
+R=\frac{1}{\frac{1}{R_1} + \frac{1}{R_2}}
+\end{align}
+
+%Nos guiaremos por la descripción de [182]. 
+El primer paso en la construcción de una red de resistencias con la junta de Sierpinski es una red triangular, llamada red-$\Delta$  
+%en algunos textos por razones obvias, 
+representada a la izquierda de la Figura \ref{fig_circuit_03}. Supongamos que medimos la resistencia entre los puntos $A$ y $B$. De momento, en el punto $C$ no pasa nada. Si redibujamos un poco la imagen de la izquierda, obtenemos la imagen de la derecha. A lo largo del camino superior aplique la regla del circuito en serie (\ref{eq_circuit_01}) para encontrar que la resistencia a lo largo de ese camino es $R_2 + R_3$. A continuación, aplica la regla del circuito en paralelo (\ref{eq_circuit_02}) para deducir que la resistencia entre $A$ y $B$ es
+
+\begin{align}\label{eq_circuit_03}
+R_{AB}=\frac{1}{\frac{1}{R_1} + \frac{1}{R_2 + R_3}}=\frac{R_1(R_2 + R_3)}{R_1 + R_2 + R_3}
+\end{align}
+
+Cálculos similares muestran que
+
+\begin{align}\label{eq_circuit_04}
+R_{AC}=\frac{R_3(R_1 + R_2)}{R_1 + R_2 + R_3}
+\quad\text{y}\quad
+R_{BC}=\frac{R_2(R_1 + R_3)}{R_1 + R_2 + R_3}
+\end{align}
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[scale=1]{img/fig_circuit_03.pdf}
+\caption{Una red triangular y una representación equivalente.}
+\label{fig_circuit_03}
+\end{figure}
+
+\begin{wrapfigure}{r}{0.45\textwidth}
+  \begin{center}
+    \includegraphics[width=0.4\textwidth]{img/fig_circuit_04.pdf}
+  \end{center}
+%  \caption{Birds}
+\end{wrapfigure}
+Estas aplicaciones directas de las ecuaciones (\ref{eq_circuit_01}) y (\ref{eq_circuit_02}) pueden aplicarse a circuitos más complicados, aunque los cálculos pueden resultar tediosos. Afortunadamente, el cálculo de la red de la junta de Sierpinski puede simplificarse significativamente mediante un proceso llamado conversión delta a estrella que se muestra a la derecha. Como estamos hablando de medir resistencias entre cualquier par de puntos de $A$, $B$ y $C$, decimos que dos redes son equivalentes si ambas dan los mismos valores para $R_{AB}$, $R_{AC}$ y $R_{BC}$. En el Apéndice B.16 mostraremos que la red en estrella equivalente tiene
+
+\begin{align}\label{eq_circuit_05}
+R_a=\frac{R_1 R_3}{R_1 + R_2 + R_3},\quad R_b=\frac{R_1 R_2}{R_1 + R_2 + R_3},\quad R_c=\frac{R_2 R_3}{R_1 + R_2 + R_3}.
+\end{align}
+
+Estos equivalentes en estrella de los circuitos triangulares son la base para nuestro cálculo de las resistencias de esquina a esquina para las redes de la junta de Sierpinski. Asumiremos que todas las resistencias de estas redes tienen el mismo valor, $R$. Para la red triangular del lado izquierdo de la Figura \ref{fig_circuit_03} con $R_1 = R_2 = R_3 = R$, la red en estrella equivalente tiene $R_a = R_b = R_c = \frac{R}{3} $ y así por la regla en serie (\ref{eq_circuit_01})
+
+\begin{align}
+R_{AB} = R_a + R_b = \frac{2R}{3}
+\end{align}
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[scale=1]{img/fig_circuit_05.pdf}
+\caption{Izquierda: segundo nivel de la red de resistencias de la junta de Sierpinski. Derecha: equivalentes en estrella de tres pequeños triángulos de la red.}
+\label{fig_circuit_05}
+\end{figure}
+
+A la izquierda de la Figura \ref{fig_circuit_05} vemos el segundo nivel en la construcción de una red de resistencias con la junta de Sierpinski. A la derecha vemos los equivalentes en estrella del triángulo con vértices $A$, $D$, $E$, el triángulo con vértices $D$, $B$, $F$, y el triángulo con vértices $E$, $F$, $C$.
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[scale=1]{img/fig_circuit_06.pdf}
+\caption{Izquierda: aplicación de la regla de la serie. Derecha: equivalentes en estrella del triángulo de la red.}
+\label{fig_circuit_06}
+\end{figure}
+
+A la izquierda de la Figura \ref{fig_circuit_06} vemos el resultado de aplicar la regla en serie (\ref{eq_circuit_01}), en estrella equivalente a la red de la derecha de la Figura \ref{fig_circuit_05}, al par de resistencias que comparten el vértice $D$, al par que comparten el vértice $E$ y al par que comparten el vértice $F$. A la derecha hemos encontrado el equivalente en estrella del triángulo de la izquierda. Las resistencias de la red en estrella equivalente vienen dadas por la ecuación (\ref{eq_circuit_05}).
+
+\begin{align}
+\frac{\frac{2R}{3}\frac{2R}{3}}{\frac{2R}{3}+\frac{2R}{3}+\frac{2R}{3}}=\frac{2R}{9}
+\end{align}
+
+A continuación, para hallar $R_{AB}$ para el segundo nivel en la red de resistencias de la junta de Sierpinski, aplique la regla de la serie a las cuatro resistencias entre $A$ y $B$.
+
+\begin{align}
+R_{AB} = \frac{R}{3}+\frac{2R}{9}+\frac{2R}{9}+\frac{R}{3}=\frac{10R}{9}=\frac{5\cdot 2R}{3^2}
+\end{align}
+
+Aplicando la conversión delta a estrella jerárquicamente en cada nivel de la construcción de la red de resistencias de la junta de Sierpinski, encontramos que $R_{AB}(n)$, la resistencia entre los vértices $A$ y $B$ para el enésimo nivel, es
+
+\begin{align}
+R_{AB}(n) = \frac{5^{n-1}\cdot 2R}{3^n}
+\label{eq_circuit_06}
+\end{align}
+
+\subsection{Procedimiento}
+
+Construiremos varios niveles de una red de resistencias con junta de Sierpinski y compararemos las mediciones de resistencia con la predicción de la equación (\ref{eq_circuit_06}).
+
+Si el experimento implica quitar algunas conexiones, la red se monta mejor en una protoboard, como en la imagen izquierda de la Fig. 5.26, porque los elementos y conectores se pueden añadir y quitar de la red con facilidad. Si el experimento implica varias mediciones en diferentes puntos, una mejor opción es una disposición más estable, como la placa de circuito impreso de PVC de la imagen de la derecha de la Fig. 5.26. Como se muestra a la derecha, estas redes no pueden montarse ni con protoboards ni con placas de circuito. Sólo tenga cuidado de colocar las redes sobre una superficie aislante. Los detalles de varios tipos de experimentos se describen en los ejemplos.
+\end{document}

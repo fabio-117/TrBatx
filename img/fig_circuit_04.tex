@@ -1,0 +1,18 @@
+\documentclass[border=1pt]{standalone}
+\usepackage{tikz,pgfplots}
+\usepackage{circuitikz}
+\pgfplotsset{compat=1.17}
+\begin{document}
+%\begin{tikzpicture}
+\begin{circuitikz} 
+\draw
+(0.75,0) node[left]{$A$} to[short] (1,0);
+\draw
+(5,0) to[short] (5.25,0) node[right]{$B$};
+\draw
+(1,0) to[R=$R_a$] (3,0) to[R=$R_b$] (5,0);
+\draw
+(3,0) to[R=$R_c$] (3,2) to[short] (3,2.25) node[above]{$C$};
+\end{circuitikz}
+%\end{tikzpicture}
+\end{document}

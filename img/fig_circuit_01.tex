@@ -1,0 +1,11 @@
+\documentclass[border=2pt]{standalone}
+\usepackage{tikz,pgfplots}
+\usepackage{circuitikz}
+\pgfplotsset{compat=1.17}
+\begin{document}
+%\begin{tikzpicture}
+\begin{circuitikz} \draw
+(0,0) node[left]{$A$} to[R=$R_1$] (2,0) to[short] (2,0) to[R=$R_2$] (4,0) node[right]{$B$};
+\end{circuitikz}
+%\end{tikzpicture}
+\end{document}

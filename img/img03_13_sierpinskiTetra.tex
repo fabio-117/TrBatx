@@ -1,0 +1,60 @@
+\RequirePackage{luatex85}
+\documentclass[border=2mm]{standalone}
+\usepackage{luamplib}
+\begin{document}
+\begin{tabular}{c}
+\begin{mplibcode}
+vardef sirp(expr A,B,C,n)=   %Procédure pour sierpinski
+     if n>0:
+      sirp( A,1/2[A,B],1/2[A,C], n-1);
+      sirp( 1/2[A,B],  B ,1/2[B,C] , n-1);
+      sirp( 1/2[A,C],  1/2[B,C],C  , n-1);
+    else:
+           fill A--B--C--cycle withcolor black;
+     fi;
+enddef;
+beginfig(1)
+u:=3cm;
+pair v; v = 1.1u*right;
+z0=(0,0); 
+z2=(0.5,(sqrt(3))/2)*u; 
+z1=z0 rotatedaround(1[z0,z2], 30);
+z3=z1 rotatedaround(1[z1,z2], 30);
+for i = 0 upto 1:
+    draw image(sirp(z0,z1,z2,i)) shifted (i*v);
+    draw image(sirp(z1,z3,z2,i)) shifted (i*v);
+    label.bot(textext("\Large $n=" & decimal i & "$"), (1.5cm+3.25cm*i,-5mm));
+endfor;
+endfig;
+\end{mplibcode}
+\\
+\\
+\begin{mplibcode}
+vardef sirp(expr A,B,C,n)=   %Procédure pour sierpinski
+     if n>0:
+      sirp( A,1/2[A,B],1/2[A,C], n-1);
+      sirp( 1/2[A,B],  B ,1/2[B,C] , n-1);
+      sirp( 1/2[A,C],  1/2[B,C],C  , n-1);
+    else:
+           fill A--B--C--cycle withcolor black;
+     fi;
+
+enddef;
+beginfig(2)
+u:=3cm;
+pair v; v = 1.1u*right;
+z0=(0,0); 
+z2=(0.5,(sqrt(3))/2)*u; 
+z1=z0 rotatedaround(1[z0,z2], 30);
+z3=z1 rotatedaround(1[z1,z2], 30);
+for i = 2 upto 3:
+    draw image(sirp(z0,z1,z2,i)) shifted (i*v);
+    draw image(sirp(z1,z3,z2,i)) shifted (i*v);
+    label.bot(textext("\Large $n=" & decimal i & "$"), (1.15cm+3.45cm*i,-5mm));
+endfor;
+%label(TEX("$n=0$"), (1.5cm,-5mm));
+%label(TEX("$n=1$"), (4.75cm,-5mm));
+endfig;
+\end{mplibcode}
+\end{tabular}
+\end{document}

@@ -1,0 +1,25 @@
+\documentclass[border=1pt]{standalone}
+\usepackage{tikz,pgfplots}
+\usepackage[RPvoltages]{circuitikz}
+\pgfplotsset{compat=1.17}
+\begin{document}
+\begin{circuitikz} 
+\draw
+(-.75,0) node[anchor=east]{$A$} to[short] (0,0) to[R=$R$] (2,0) node[anchor=north]{$D$} to[R=$R$] (4,0) to[short] (4.75,0) node[anchor=west]{$B$};
+\draw
+(0,0) to[R=$R$] (0,2) node[anchor=east]{$E$} to[R=$R$] (0,4) to[short] (0,4.75) node[above]{$C$};
+\draw
+(0,4) to[R=$R$] (2,2) node[anchor=west]{$F$} to[R=$R$] (4,0);
+\draw
+(0,2) to[R=$R$] (2,2) to[R=$R$] (2,0) to[R=$R$] (0,2);
+\end{circuitikz}
+\hspace{0.1in}
+\begin{circuitikz} 
+\draw
+(-.25,0) node[anchor=east]{$A$} to[short] (0,0) to[R=$\frac{R}{3}$] (2,0) to[R=$\frac{R}{3}$] node[anchor=north west]{$D$} (4,0) to[R=$\frac{R}{3}$] (6,0) to[R=$\frac{R}{3}$] (8,0) to[short] (8.25,0) node[anchor=west]{$B$};
+\draw
+(2,0) to[R=$\frac{R}{3}$] (2,2) node[anchor=east]{$E$} to[R=$\frac{R}{3}$] (4,2) to[R=$\frac{R}{3}$] (6,2) node[anchor=west]{$F$}  to[R=$\frac{R}{3}$]  (6,0);
+\draw
+(4,2) to[R=$\frac{R}{3}$] (4,4) to[short] (4,4.25) node[above]{$C$};
+\end{circuitikz}
+\end{document}
