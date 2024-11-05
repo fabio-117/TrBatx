@@ -5,6 +5,7 @@
 \pgfplotsset{compat=newest}
 %\usepackage{xeCJK}
 \usepackage{graphicx}
+%\usepackage{multirow}
 \usepackage{mathtools}
 \usepackage{anyfontsize}
 \usepackage{booktabs}
@@ -12,7 +13,8 @@
 \usepackage{subcaption}
 %\usepackage{utopia} %font utopia imported
 \usepackage{ragged2e}
-\usetheme{CambridgeUS}
+\usetheme{Berlin}
+%\usetheme{CambridgeUS}
 \usecolortheme{dolphin}
 \definecolor{links}{HTML}{2A1B81}
 \hypersetup{colorlinks,linkcolor=,urlcolor=links}
@@ -115,6 +117,7 @@
 \usepackage{tabularx}
 \usepackage[export]{adjustbox}
 \usepackage{setspace}
+\usepackage{multirow}
 \begin{document}
 %The next statement creates the title page.
 \frame{\titlepage}
@@ -123,6 +126,17 @@
 \tableofcontents
 \end{frame}
 %------------------------------------------------------------
+\section{Per què els fractals?}
+\begin{frame}{Per què els fractals?}
+El motiu pel qual vaig triar aquest tema per a mi TR va ser:
+\begin{itemize}
+\justifying
+\item Curiositat per aquestes formes 
+\item Interès per les matemàtiques
+\item Interès per la programació
+\end{itemize}
+\end{frame}
+
 \section{Objectius}
 \begin{frame}{Objectius}
 \begin{itemize}
@@ -130,11 +144,9 @@
 \item A nivell teòric conèixer sobre el concepte de fractal i les teories matemàtiques que engloben.
 \item A nivell pràctic es buscava respondre les següents questions:
 \begin{itemize}
-\justifying
 \item Es possible modelar en 3D un paisatge natural a partir d'un sol fractal?
 \item Es podran obtenir més d'un tipus de paisatge?
 \end{itemize}
-\item Aquestes qüestions es repondran o no, més endavant amb la part pràctica.
 \end{itemize}
 \end{frame}
 
@@ -157,7 +169,7 @@ Recerca i investigació sobre els fractals i tots els conceptes que engloben. Ús 
 \begin{frame}{Metodologia}
 \begin{itemize}
 \justifying
-\item Cerca d'un llenguatge de programació on desenvolupar la pràctica. Llenguatge de programació Python.
+\item Cerca d'un llenguatge de programació on desenvolupar (Python) i un suport de programació (Jupyter) per la pràctica.
 \end{itemize}
 \begin{figure}[!ht]
 \centering
@@ -170,24 +182,15 @@ Recerca i investigació sobre els fractals i tots els conceptes que engloben. Ús 
 \end{itemize}
 \end{frame}
 
-\section{Qué son aquestes formes?}
-\begin{frame}{Qué son aquestes formes?}
+\section{Exposició del concepte}
+\begin{frame}{Definició i origen}
 \begin{itemize}
 \justifying
-\item La paraula fractal ve del llatí fractus, que significa trencat, fracturat o irregular
+\item La paraula fractal ve del llatí \textit{fractus}, que significa trencat, fracturat o irregular
 \item Els fractals es defineixen com a formes geomètriques complexes, que tenen un patró que es repeteix a diferents escales i mesures.
-\item Matemàticament els fractals, ademés de ser semblants a diverses escales, tenen dimensió irracional, és a dir, fraccionària.
-\end{itemize}
-\end{frame}
-
-\section{Origen del concepte}
-\begin{frame}{Origen del concepte:}
-\justifying
-\begin{itemize}
-\justifying
-\item El primers patrons fractals coneguts datant de l'edat antiga, on eren utilitzats amb motius decoratius.
-\item El concepte actual es va començar a modelar durant el segle XIX, quan diversos matemàtics van estudiar els llavors coneguts 'monstres matemàtics'. Els quals serien els primers fractals.
-\item Finalment, el concepte va ser definit per Mandelbrot després de revisar els estudis de Julia mentre treballava a l'IBM. Mandelbrot acabaria definit el concepte de fractal i les seves característiques (autosimilitud, dimensió fractal, etc.). També construiria el seu famós conjunt de Mandelbrot.
+\item El primers patrons fractals coneguts datant de l'edat antiga, on eren utilitzats per decoració.
+\item Durant els segles XIX i XX es comença a elaborar les primeres idees i formes fractals.
+\item Finalment, Mandelbrot estableix el concepte i formula la geometria fractal.
 \end{itemize}
 \end{frame}
 
@@ -204,13 +207,28 @@ Els fractals presenten qualitats o característiques úniques, aquestes són:
 \item Estadística
 \end{itemize}
 \justifying
-\item \textbf{Recursivitat:} es poden construir mitjançant la repetició de si mateix indefinidament.
+\item \textbf{Recursivitat:} es poden construir a partir de la repetició d'un mateix de manera indefinida. 
 \item \textbf{Dimensió fractal:} els fractals són formes geomètriques de dimensió irracional.
 \end{itemize}
 \end{frame}
 
+\begin{frame}{Comptatge de caixes}
+\begin{figure}[!ht]
+\centering
+\includegraphics[scale = .5,]{img/img02_dim_country.pdf}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Dimensió d'autosimilitud}
+\begin{figure}
+\centering
+\includegraphics[scale = 1.75]{img/img02_05_sierpinski.pdf}
+\caption{$D = \frac{\log(3^4)}{\log(2^4)} = 1.584962501$}
+\end{figure}
+\end{frame}
+
 \section{Formes}
-\begin{frame}{Formes:}
+\begin{frame}{Formes}
 \begin{small}
 \begin{tabularx}{\textwidth}{XXXX}
 \includegraphics[width=0.2\textwidth,valign = c]{img/img02_05_sierpinski.pdf}&
@@ -226,7 +244,7 @@ Els fractals presenten qualitats o característiques úniques, aquestes són:
 \end{frame}
 %
 \section{Presència al món}
-\begin{frame}{Presència al món:}
+\begin{frame}{Presència al món}
 Els fractals es manifesten al món de dues formes:
 \begin{itemize}
 \item A la natura:\vspace*{5pt}
@@ -265,18 +283,20 @@ Els fractals es manifesten al món de dues formes:
 
 
 \section{Pràctica}
-\begin{frame}{Paisatges fractals}
+\begin{frame}{Procés}
 \justifying
+La pràctica d'aquest treball consisteix en la programació de paisatges naturals usant fractals. Per a dur a terme aquest comunicat es van seguir els següents passos:
 \begin{itemize}
 \justifying
-\item La part pràctica del meu TR es va basar en la programació de paisatges naturals a partir d'un sol fractal.
-\item Primer, vaig escollir un llenguatge de programació per fer-ho, que va ser Python. Després vaig buscar quins codis necessitaria per realitzar els paisatges. 
-\item Abans d'elaborar els paisatges, vaig posar en pràctica tot el que havia après de programació dibuixant primer formes fractals conegudes. Les imatges obtingudes les vaig utilitzar com a exemples en el meu treball.
+\item Cerca del llenguatge i suport de programació
+\item Aprenentatge. Programació de fractals bidimensionals com a assaig previ.
+\item Cerca de les fractals en els quals s'usessin en els paisatges.
+\item Construcció dels paisatges i resolució de les qüestions.
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Paisatges fractals}
-Per produir els paisatges vaig utilitzar els següents fractals: \vspace{15pt}
+\begin{frame}{Fractals escollits}
+\vspace{0pt}
 \begin{table}
 \centering
 \begin{tabularx}{\textwidth}{XXX}
@@ -286,50 +306,60 @@ Per produir els paisatges vaig utilitzar els següents fractals: \vspace{15pt}
 %\caption{\textbf{Conjunt de Mandelbrot}.}
 \includegraphics[width=0.3\textwidth,valign = c]{img/fig_newton.pdf}\\
 %\caption{\textbf{Fractal de Newton.}
+\begin{align*}
+f_{c}(z)=z^2 + c.
+\end{align*}&
+\begin{align*}
+f(z)=z^2 + c
+\end{align*}&
+\begin{align*}
+z_{n+1}=z_{n}-\frac{f(z_{n})}{f'(z_{n})}
+\end{align*}
 \end{tabularx}
 \end{table}
+On, $z, c \in \mathbb{C}$ i $n=0,1,\cdots$.
 \end{frame}
 
-\begin{frame}{Conjunt de Julia}
-El conjunt de julia o fractal de julia es defineix de la següent funció:
-\begin{align}\label{eq02_julia}
-f_{c}(z)=z^2 + c.
-\end{align}
-
-On utilitzem un nombre complex $c$ concret per fer iteracions d'aquesta funció:
-\begin{align*}
-z_0 &= z \\
-z_1 &= f_{c}(z_0)= z_{0}^2 + c \\
-z_2 &= f_{c}(z_1) =z_{1}^2+c \\
-& \vdots \\
-z_n &= f_{c}(z_{n-1}) =z_{n-1}^2+c 
-\end{align*}
-\end{frame}
-
-\begin{frame}{Conjunt de Mandelbrot}
-El conjunt de Mandelbrot s'obte de la següent funció:
-\begin{align}\label{eq02_mandelbrot}
-f(z)=z^2 + c,\quad z, c \in \mathbb{C}.
-\end{align}
-Primer es fixa un nombre complex \(c\) qualsevol. A partir de \(c\), es construeix una successió recursiva:
-\begin{align*}
-\left\{ \begin{array}{ll}
-z_0 = 0,\quad & \text{termini inicial} \\
-z_{n+1} = z_{n}^{2} + c,\quad & \text{successió recursiva.}
-\end{array}\right.
-\end{align*}
-En general, els punts \(c\) pertanyen al subconjunt del pla complex  \([-2,2]\times[-2,2]\).
-\end{frame}
-
-\begin{frame}{Fractal de Newton}
-El fractal de Newton es genera a partir del mètode de \textbf{Newton-Raphson}. Aquest, troba les arrels d'una funció prenen una estimació inicial d'una arrel, $x_0$, i cerca successivament millors aproximacions de la mateixa de la manera següent:
-
-\begin{align*}
-x_{n+1}=x_{n}-\frac{f(x_{n})}{f'(x_{n})}, \qquad n=0,1,\cdots.
-\end{align*}
-
-En cada iteració, l'arrel s'aproxima a $x_{n+1}$, la intercepció en l'eix $x$ de la tangent a la gràfica en $f(x_{n})$. Quan s'aplica a funcions de variable complexa $z$, es poden crear fractals.
-\end{frame}
+%\begin{frame}{Conjunt de Julia}
+%El conjunt de julia o fractal de julia es defineix de la següent funció:
+%\begin{align}\label{eq02_julia}
+%f_{c}(z)=z^2 + c.
+%\end{align}
+%
+%On utilitzem un nombre complex $c$ concret per fer iteracions d'aquesta funció:
+%\begin{align*}
+%z_0 &= z \\
+%z_1 &= f_{c}(z_0)= z_{0}^2 + c \\
+%z_2 &= f_{c}(z_1) =z_{1}^2+c \\
+%& \vdots \\
+%z_n &= f_{c}(z_{n-1}) =z_{n-1}^2+c 
+%\end{align*}
+%\end{frame}
+%
+%\begin{frame}{Conjunt de Mandelbrot}
+%El conjunt de Mandelbrot s'obte de la següent funció:
+%\begin{align}\label{eq02_mandelbrot}
+%f(z)=z^2 + c,\quad z, c \in \mathbb{C}.
+%\end{align}
+%Primer es fixa un nombre complex \(c\) qualsevol. A partir de \(c\), es construeix una successió recursiva:
+%\begin{align*}
+%\left\{ \begin{array}{ll}
+%z_0 = 0,\quad & \text{termini inicial} \\
+%z_{n+1} = z_{n}^{2} + c,\quad & \text{successió recursiva.}
+%\end{array}\right.
+%\end{align*}
+%En general, els punts \(c\) pertanyen al subconjunt del pla complex  \([-2,2]\times[-2,2]\).
+%\end{frame}
+%
+%\begin{frame}{Fractal de Newton}
+%El fractal de Newton es genera a partir del mètode de \textbf{Newton-Raphson}. Aquest, troba les arrels d'una funció prenen una estimació inicial d'una arrel, $x_0$, i cerca successivament millors aproximacions de la mateixa de la manera següent:
+%
+%\begin{align*}
+%x_{n+1}=x_{n}-\frac{f(x_{n})}{f'(x_{n})}, \qquad n=0,1,\cdots.
+%\end{align*}
+%
+%En cada iteració, l'arrel s'aproxima a $x_{n+1}$, la intercepció en l'eix $x$ de la tangent a la gràfica en $f(x_{n})$. Quan s'aplica a funcions de variable complexa $z$, es poden crear fractals.
+%\end{frame}
 
 \section*{Resultats}
 \begin{frame}[fragile]{Resultats}
@@ -379,15 +409,17 @@ Exposició dels paisatges obtinguts
 
 \section*{Conclusions:}
 \begin{frame}{Conclusions:}
-\begin{itemize}
+\begin{enumerate}
 \justifying
 \item S'ha obtingut un ampli coneixement sobre els fractals.
 \item S'ha après a utilitzar un llenguatge de programació (Python).
-\item S'ha aconseguit generar paisatges a partir d'un sol fractal.
-\item S'ha aconseguit generar més d'un sol tipus de paisatge.
-\end{itemize}
+\item Respecte a les qüestions inicials:
+\begin{enumerate}
+\item Es poden construir paisatges a partir d'un conjunt de julia. També a partir de seccions del conjunt de Mandelbrot i la fractal de Newton.
+\item Amb els conjunts de Julia i Mandelbrot es poden construir diversos paisatges. La fractal de Newton només permet muntanyes nevades.
+\end{enumerate}
+\end{enumerate}
 \end{frame}
-
 
 \end{document}
 

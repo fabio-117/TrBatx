@@ -1,0 +1,405 @@
+\documentclass[10pt,aspectratio=1610]{beamer}
+\usepackage[latin1]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{pgfplots}
+\pgfplotsset{compat=newest}
+%\usepackage{xeCJK}
+\usepackage{graphicx}
+\usepackage{mathtools}
+\usepackage{anyfontsize}
+\usepackage{booktabs}
+\usepackage{verbatim}
+\usepackage{subcaption}
+%\usepackage{utopia} %font utopia imported
+\usepackage{ragged2e}
+\usetheme{CambridgeUS}
+\usecolortheme{dolphin}
+\definecolor{links}{HTML}{2A1B81}
+\hypersetup{colorlinks,linkcolor=,urlcolor=links}
+% set colors
+\definecolor{myNewColorA}{RGB}{126,12,110}
+\definecolor{myNewColorB}{RGB}{165,85,154}
+\definecolor{myNewColorC}{RGB}{203,158,197}
+\setbeamercolor*{palette primary}{bg=myNewColorC}
+\setbeamercolor*{palette secondary}{bg=myNewColorB, fg = white}
+\setbeamercolor*{palette tertiary}{bg=myNewColorA, fg = white}
+\setbeamercolor*{titlelike}{fg=myNewColorA}
+\setbeamercolor*{title}{bg=myNewColorA, fg = white}
+\setbeamercolor*{item}{fg=myNewColorA}
+\setbeamercolor*{caption name}{fg=myNewColorA}
+\usefonttheme{professionalfonts}
+\usepackage{natbib}
+\usepackage{hyperref}
+\setbeamertemplate{caption}[numbered]
+%------------------------------------------------------------
+\titlegraphic{\includegraphics[height=1.5cm]{img/logo.png}}
+
+\setbeamerfont{title}{size=\large}
+\setbeamerfont{subtitle}{size=\small}
+\setbeamerfont{author}{size=\small}
+\setbeamerfont{date}{size=\small}
+\setbeamerfont{institute}{size=\small}
+\title[]{Els fractals}
+\subtitle{La geometria del món}
+\author[Fabio Guevara]{Fabio Guevara}
+
+\institute[Ins Francesc Macià]{Ins Francesc Macià}
+\date[Barcelona 2024]
+{Barcelona 2024}
+
+%------------------------------------------------------------
+%This block of commands puts the table of contents at the 
+%beginning of each section and highlights the current section:
+%\AtBeginSection[]
+%{
+%  \begin{frame}
+%    \frametitle{Contents}
+%    \tableofcontents[currentsection]
+%  \end{frame}
+%}
+\AtBeginSection[]{
+  \begin{frame}
+  \vfill
+  \centering
+  \begin{beamercolorbox}[sep=8pt,center,shadow=true,rounded=true]{title}
+    \usebeamerfont{title}\insertsectionhead\par%
+  \end{beamercolorbox}
+  \vfill
+  \end{frame}
+}
+%------------------------------------------------------------
+%%% format codi python
+\usepackage{color}
+\definecolor{darkred}{rgb}{0.6,0.0,0.0}
+\definecolor{darkgreen}{rgb}{0,0.50,0}
+\definecolor{lightblue}{rgb}{0.0,0.42,0.91}
+\definecolor{orange}{rgb}{0.99,0.48,0.13}
+\definecolor{grass}{rgb}{0.18,0.80,0.18}
+\definecolor{pink}{rgb}{0.97,0.15,0.45}
+
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+
+\usepackage{listingsutf8}
+\usepackage{listings}
+
+\lstset{
+  %aboveskip=15px,
+  language=Python,
+  %basicstyle=\tiny,
+  basicstyle=\fontsize{4}{5}\selectfont\ttfamily, 
+  backgroundcolor=\color{white},
+  commentstyle=\color{mygreen},
+  frame=single,
+  keywordstyle=true,
+  keywordstyle=\color{blue},
+  breaklines=true,
+  %postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space},
+  inputencoding=utf8/latin1,
+  literate=
+  {á}{{\'a}}1
+  {à}{{\`a}}1
+  {ã}{{\~a}}1
+  {é}{{\'e}}1
+  {ê}{{\^e}}1
+  {í}{{\'i}}1
+  {ó}{{\'o}}1
+  {ò}{{\`o}}1
+  {õ}{{\~o}}1
+  {ú}{{\'u}}1
+  {ü}{{\"u}}1
+  {ç}{{\c{c}}}1
+}
+
+\usepackage{tabularx}
+\usepackage[export]{adjustbox}
+\usepackage{setspace}
+\begin{document}
+%The next statement creates the title page.
+\frame{\titlepage}
+\begin{frame}
+\frametitle{Contents}
+\tableofcontents
+\end{frame}
+%------------------------------------------------------------
+\section{Por qué los fractales?}
+El motivo por el cual elegí este tema para mí TR fue:
+\begin{itemize}
+\justifying
+\item Curiosidad por estas formas
+\item Interés por las matemáticas
+\item Interés por la programación
+\end{itemize}
+
+\section{Objetivos}
+\begin{frame}{Objetivos}
+\begin{itemize}
+\justifying
+\item A nivel teórico conocer sobre el concepto de fractal y las teorías matemáticas que engloban.
+\item A nivel práctico se buscaba responder las siguientes questions:
+\begin{itemize}
+\justifying
+\item Se posible modelar en 3D un paisaje natural a partir de un solo fractal?
+\item Se podrán obtener más de un tipo de paisaje?
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+\section{Metodología}
+\begin{frame}{Metodología}
+Investigación e investigación sobre los fractales y todos los conceptos que engloban. Uso de varias fuentes:
+\begin{itemize}
+\justifying
+\item Libros de divulgación
+\item Videos
+\item Páginas web
+\end{itemize}
+\begin{figure}[!*ht]
+\centering
+\includegraphics[scale=0.2]{img/*llibre2.jpg}
+\includegraphics[scale=0.2]{img/*llibre1.jpg}
+\end{figuro}
+\end{frame}
+
+\begin{frame}{Metodologia}
+\begin{itemize}
+\justifying
+\item Cerca d'un llenguatge de programació on desenvolupar (Python) i un suport de programació (Jupyter) per la pràctica.
+\end{itemize}
+\begin{figure}[!ht]
+\centering
+\includegraphics[scale=0.1]{img/eina.png}
+\end{figure}
+\begin{itemize}
+\justifying
+\item Elaboració de les imatges mostrades al treball en Jupyter. D'aquesta manera es va aprenent com funcionen els codis i llibreries emprats en els paisatges posteriorment.
+\item Després de comprendre el funcionament de l'eina, es comença l'elaboració dels paisatges naturals en 3D.
+\end{itemize}
+\end{frame}
+
+\section{Qué son aquestes formes?}
+\begin{frame}{Qué son aquestes formes?}
+\begin{itemize}
+\justifying
+\item La paraula fractal ve del llatí fractus, que significa trencat, fracturat o irregular
+\item Els fractals es defineixen com a formes geomètriques complexes, que tenen un patró que es repeteix a diferents escales i mesures.
+\item Matemàticament els fractals, ademés de ser semblants a diverses escales, tenen dimensió irracional, és a dir, fraccionària.
+\end{itemize}
+\end{frame}
+
+\section{Origen del concepte}
+\begin{frame}{Origen del concepte:}
+\justifying
+\begin{itemize}
+\justifying
+\item El primers patrons fractals coneguts datant de l'edat antiga, on eren utilitzats per decoració.
+\item El concepte actual es va començar a modelar durant el segle XIX, quan diversos matemàtics van estudiar els llavors coneguts 'monstres matemàtics'. Els quals serien els primers fractals.
+\item Finalment, el concepte va ser definit per Mandelbrot després de revisar els estudis de Julia mentre treballava a l'IBM. Mandelbrot acabaria definit el concepte de fractal i les seves característiques (autosimilitud, dimensió fractal, etc.). També construiria el seu famós conjunt de Mandelbrot.
+\end{itemize}
+\end{frame}
+
+\section{Característiques}
+\begin{frame}{Característiques:}
+Els fractals presenten qualitats o característiques úniques, aquestes són: 
+\begin{itemize}
+\justifying
+\item \textbf{Autosimilitud:} és la propietat de mantenir-se semblant a diverses escales.
+\begin{itemize}
+\justifying
+\item Exacta
+\item Aproximada
+\item Estadística
+\end{itemize}
+\justifying
+\item \textbf{Recursivitat:} es poden construir mitjançant la repetició de si mateix indefinidament.
+\item \textbf{Dimensió fractal:} els fractals són formes geomètriques de dimensió irracional.
+\end{itemize}
+\end{frame}
+
+\section{Formes}
+\begin{frame}{Formes:}
+\begin{small}
+\begin{tabularx}{\textwidth}{XXXX}
+\includegraphics[width=0.2\textwidth,valign = c]{img/img02_05_sierpinski.pdf}&
+\includegraphics[width=0.2\textwidth,valign = c]{img/img02_08_tetraedro.pdf}&
+\includegraphics[width=0.2\textwidth,valign = c]{img/img03_dragon_curve.pdf}&
+\includegraphics[width=0.2\textwidth,valign = c]{img/img02_12_mandelbrot.pdf}\\
+\includegraphics[width=0.2\textwidth,valign = c]{img/img02_06_carpet.pdf}&
+\includegraphics[width=0.2\textwidth,valign = c]{img/img02_09_menger.pdf}&
+\includegraphics[width=0.2\textwidth,valign = c]{img/img02_10_peano.pdf}&
+\includegraphics[width=0.2\textwidth,valign = c]{img/img03_01_julia.pdf}
+  \end{tabularx}
+\end{small}
+\end{frame}
+%
+\section{Presència al món}
+\begin{frame}{Presència al món:}
+Els fractals es manifesten al món de dues formes:
+\begin{itemize}
+\item A la natura:\vspace*{5pt}
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=0.2575\textwidth,valign = c]{img/img04_03_rayos.jpeg}\hspace{10pt}
+\includegraphics[width=0.2\textwidth,valign = c]{img/img04_01_dona1.jpeg}\hspace{10pt}
+\includegraphics[width=0.22\textwidth,valign = c]{img/img04_06_nubes.jpeg}\hspace{10pt}
+\end{figure}
+\item A la ciència i tecnologia:\hspace{0cm}
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=0.3\textwidth,valign = c]{img/img05_02_antena_fractal.jpg}\hspace{20pt}
+\includegraphics[width=0.3\textwidth,valign = c]{img/img05_injector.pdf}
+\end{figure}
+\end{itemize}
+\end{frame}
+
+%\section{Presència al món}
+%\begin{frame}{Presència al món:}
+%Els fractals es manifesten al món de dues formes:
+%\begin{itemize}
+%\item A la natura:\vspace*{5pt}
+%\begin{tabularx}{\textwidth}{XXX}
+%\includegraphics[width=0.25\textwidth,valign = c]{img/img04_03_rayos.jpeg}&
+%\includegraphics[width=0.2\textwidth,valign = c]{img/img04_01_dona1.jpeg}&
+%\includegraphics[width=0.225\textwidth,valign = c]{img/img04_06_nubes.jpeg}\\
+%  \end{tabularx}
+%\item A la ciència i tecnologia:\hspace{0cm}
+%\begin{tabularx}{\textwidth}{XX}
+%\includegraphics[width=0.3\textwidth,valign = c]{img/img05_02_antena_fractal.jpg}&
+%\includegraphics[width=0.3\textwidth,valign = c]{img/img05_injector.pdf}\\
+%  \end{tabularx}
+%\end{itemize}
+%\end{frame}
+
+
+\section{Pràctica}
+\begin{frame}{Procés}
+\justifying
+La pràctica d'aquest treball consisteix en la programació de paisatges naturals usant fractals. Per a dur a terme aquest comunicat es van seguir els següents passos:
+\begin{itemize}
+\justifying
+\item Cerca del llenguatge i suport de programació
+\item Aprenentatge. Programació de fractals bidimensionals com a assaig previ.
+\item Cerca de les fractals en els quals s'usessin en els paisatges.
+\item Construcció dels paisatges i resolució de les qüestions.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Paisatges fractals}
+Per produir els paisatges vaig utilitzar els següents fractals: \vspace{15pt}
+\begin{table}
+\centering
+\begin{tabularx}{\textwidth}{XXX}
+\includegraphics[width=0.3\textwidth,valign = c]{img/fig_julia.pdf}&
+%\caption{\textbf{Conjunt de Julia}.}
+\includegraphics[width=0.3\textwidth,valign = c]{img/fig_mandelbrot.pdf}&
+%\caption{\textbf{Conjunt de Mandelbrot}.}
+\includegraphics[width=0.3\textwidth,valign = c]{img/fig_newton.pdf}\\
+%\caption{\textbf{Fractal de Newton.}
+\end{tabularx}
+\end{table}
+\end{frame}
+
+\begin{frame}{Conjunt de Julia}
+El conjunt de julia o fractal de julia es defineix de la següent funció:
+\begin{align}\label{eq02_julia}
+f_{c}(z)=z^2 + c.
+\end{align}
+
+On utilitzem un nombre complex $c$ concret per fer iteracions d'aquesta funció:
+\begin{align*}
+z_0 &= z \\
+z_1 &= f_{c}(z_0)= z_{0}^2 + c \\
+z_2 &= f_{c}(z_1) =z_{1}^2+c \\
+& \vdots \\
+z_n &= f_{c}(z_{n-1}) =z_{n-1}^2+c 
+\end{align*}
+\end{frame}
+
+\begin{frame}{Conjunt de Mandelbrot}
+El conjunt de Mandelbrot s'obte de la següent funció:
+\begin{align}\label{eq02_mandelbrot}
+f(z)=z^2 + c,\quad z, c \in \mathbb{C}.
+\end{align}
+Primer es fixa un nombre complex \(c\) qualsevol. A partir de \(c\), es construeix una successió recursiva:
+\begin{align*}
+\left\{ \begin{array}{ll}
+z_0 = 0,\quad & \text{termini inicial} \\
+z_{n+1} = z_{n}^{2} + c,\quad & \text{successió recursiva.}
+\end{array}\right.
+\end{align*}
+En general, els punts \(c\) pertanyen al subconjunt del pla complex  \([-2,2]\times[-2,2]\).
+\end{frame}
+
+\begin{frame}{Fractal de Newton}
+El fractal de Newton es genera a partir del mètode de \textbf{Newton-Raphson}. Aquest, troba les arrels d'una funció prenen una estimació inicial d'una arrel, $x_0$, i cerca successivament millors aproximacions de la mateixa de la manera següent:
+
+\begin{align*}
+x_{n+1}=x_{n}-\frac{f(x_{n})}{f'(x_{n})}, \qquad n=0,1,\cdots.
+\end{align*}
+
+En cada iteració, l'arrel s'aproxima a $x_{n+1}$, la intercepció en l'eix $x$ de la tangent a la gràfica en $f(x_{n})$. Quan s'aplica a funcions de variable complexa $z$, es poden crear fractals.
+\end{frame}
+
+\section*{Resultats}
+\begin{frame}[fragile]{Resultats}
+Exposició dels paisatges obtinguts
+
+\begin{columns}
+ \column{0.29\linewidth}
+   \centering
+   \includegraphics[width=0.95\textwidth]{img/mandelbrot_muntanya.png}
+ \column{0.7\linewidth}
+   {\setstretch{1.0}
+   \lstinputlisting{code/mandelbrot_mountain_beamer.py}}
+\end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{Resultats}
+\begin{columns}
+ \column{0.29\linewidth}
+   \centering
+   \includegraphics[width=0.95\textwidth]{img/julia_illa_01.png}
+ \column{0.7\linewidth}
+   {\setstretch{1.0}
+   \lstinputlisting{code/julia_mountain_beamer.py}}
+\end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{Resultats}
+\begin{columns}
+ \column{0.29\linewidth}
+   \centering
+   \includegraphics[width=0.95\textwidth]{img/newton_mountain.png}
+ \column{0.7\linewidth}
+   {\setstretch{1.0}
+   \lstinputlisting{code/newton_mountain_beamer.py}}
+\end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{Resultats}
+\begin{figure}[!ht]
+\centering
+\includegraphics[scale=0.15,valign = c]{img/julia_forest_01.png}\hspace{15pt}
+\includegraphics[scale=0.15,valign = c]{img/julia_forest_02.png}\\
+\includegraphics[scale=0.15,valign = c]{img/julia_illa_02.png}\hspace{15pt}
+\includegraphics[scale=0.15,valign = c]{img/mandelbrot_glacera.png}
+\end{figure}
+\end{frame}
+
+\section*{Conclusions:}
+\begin{frame}{Conclusions:}
+\begin{enumerate}
+\justifying
+\item S'ha obtingut un ampli coneixement sobre els fractals.
+\item S'ha après a utilitzar un llenguatge de programació (Python).
+\item Respecte a les qüestions inicials:
+\begin{enumerate}
+\item Es poden construir paisatges a partir d'un conjunt de julia. També a partir de seccions del conjunt de Mandelbrot i la fractal de Newton.
+\item Amb els conjunts de Julia i Mandelbrot es poden construir diversos paisatges. La fractal de Newton només permet muntanyes nevades.
+\end{enumerate}
+\end{enumerate}
+\end{frame}
+
+\end{document}
+
